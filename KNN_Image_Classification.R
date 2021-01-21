@@ -1,4 +1,4 @@
-setwd("C:\\Users\\deepp\\Google Drive\\MSDS\\MATH 6350 Data Mining\\Selected fonts")
+setwd("C:\\Users\\deepp\\Google Drive\\Selected fonts")
 getwd()
 font_style1 <- read.csv('ERAS.csv') # ERAS
 font_style2 <- read.csv('GADUGI.csv')# GADUGI
@@ -78,6 +78,8 @@ sorted_positions <- x[x.order, ]
 cat(unique(top_20_values), sep="\n")
 sorted_positions
 SDATA <- cbind(SDATA,'class'=DATA$class)
+                        
+#-----------------------------------------------------------------------                        
 ### PART 1
 
 # 1.0
