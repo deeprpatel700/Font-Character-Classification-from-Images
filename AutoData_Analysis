@@ -1,4 +1,4 @@
-autodata<- read.csv("C:\\Users\\deepp\\Google Drive\\MSDS\\MATH 6350 Data Mining\\cleanDataAuto.csv",
+autodata<- read.csv("C:\\Users\\deepp\\Google Drive\\cleanDataAuto.csv",
                     header=T,na.strings="?")
 names(autodata)
 head(autodata)
@@ -19,7 +19,7 @@ F4 = wei <- autodata$weight
 F5 = acc <- autodata$acceleration
 
 #_------------------------------------------------------------------------------------
-###### Question 1 mean & sd ######
+###### Part 1 mean & sd ######
 # mean and standard deviation of cylinders
 mean(F1)
 sd(F1)
@@ -42,7 +42,7 @@ sd(F5)
 
 #-------------------------------------------------------------------------------------------------
 dev.off()
-###### Question 2 Histograms #######
+###### Part 2 Histograms #######
 par(mfrow = c(3, 2))
 hist(F1, breaks = 10,
      main = "Histogram of cylinders",
@@ -78,7 +78,7 @@ hist(mpg, breaks = 10,
 
 #-----------------------------------------------------------------------------------------
 
-######## Question #3 & 4 Scatterplots ########
+######## Part #3 Scatterplots ########
 #Scatterplot of mpg vs. cylinder
 plot(cyl,mpg,  
      pch = 3,      # plus sign
@@ -129,7 +129,7 @@ plot(acc,mpg,
 
 #---------------------------------------------------------------------------------------------
 
-#### Question #5 Correlations ####
+#### Part #4 Correlations ####
 cor(cyl,mpg)
 cor(dis,mpg)
 cor(hor,mpg)
@@ -139,7 +139,7 @@ cor(acc,mpg)
 
 #-------------------------------------------------------------------------------------------------
 
-### Question #6 Correlation Matrix
+### Part #5 Correlation Matrix
 install.packages("corrplot")
 source("http://www.sthda.com/upload/rquery_cormat.r")
 library(corrplot)
@@ -150,10 +150,9 @@ features<- autodata[,c("cylinders","displacement","horsepower","weight","acceler
 head(features)
 rquery.cormat(features, type="full")
 
-#NOTE: execute commands, check console, not sure if correlation matrix is correct
 #-----------------------------------------------------------------------------------------
 
-###### Question #7: Quantile plot #########
+###### Part #6: Quantile plot #########
 percentile<- seq(0.01,1,by=0.01)
 qmpg<- quantile(mpg, percentile)
 qmpg
@@ -167,7 +166,7 @@ plot((1:n-1)/(n-1),sort(Y),type="l",
 
 #-----------------------------------------------------------------------------------------
 
-##### Question 8: Extracting Data ####
+##### Part 7: Extracting Data ####
 percentile<- seq(0.01,1,by=0.01)
 qmpg<- quantile(mpg, percentile) #sorts mpg data from 1% to 100% percentile
 qmpg.data<- data.frame(qmpg)  
@@ -189,7 +188,7 @@ head(HIGHmpg)
 
 #--------------------------------------------------------------------------------------
 
-#### Question 9 & 10: Histogram of LOWmpg & HIGHmpg ##########
+#### Part 8: Histogram of LOWmpg & HIGHmpg ##########
 
 Y.low<- LOWmpg$mpg
 F1low= cyl.low <- LOWmpg$cylinders
@@ -260,7 +259,7 @@ hist(F5high, breaks = 10,
 
 #---------------------------------------------------------------------------------------
 
-##### Question #12: mean mL, mH & standard dev stdL, stdH for LOW & HIGH mpg ####
+##### Part 9: mean mL, mH & standard dev stdL, stdH for LOW & HIGH mpg ####
 
 # mean and standard deviation of cylinders with LOWmpg cases
 mLF1<- mean(F1low); mLF1
@@ -310,9 +309,9 @@ describe(HIGHmpg)
 NL<-nrow(LOWmpg); NL                #number of cases in LOWmpg
 NH<- nrow(HIGHmpg); NH              #number of cases in HIGHmpg
 M<-(NL+NH)/2 ; M                    #Denote M = NL ??? NH . 
-#Instructions: For each feature F compute   s(F) = square root [ (stdL2  + stdH2 )/M ]
+#For each feature F compute   s(F) = square root [ (stdL2  + stdH2 )/M ]
 
-####### Question 12 Formula ############
+####### Part 10: Using above Formula ############
 sF1<- sqrt(((stdL1)^2 + (stdH1)^2)/M)      
 sF1
 sF2<- sqrt(((stdL2)^2 + (stdH2)^2)/M)     
@@ -344,7 +343,7 @@ discr.F5
 
 #-------------------------------------------------------------------------------------------------
 
-###### Question 13 thershold calculations ######
+###### Part 11 thershold calculations ######
 
 thr.F1<- ((mLF1*stdH1)+(mHF1*stdL1))/(stdH1+stdL1)  #threshold of cylinders
 thr.F1
@@ -385,7 +384,7 @@ f3score
 f4score<- ifelse(autodata$weight<thr.F4, 1, -1)
 f4score
 #-------------------------------------------------------------------------------------
-#Question 14
+# Part 12
 
 
 fullscore<- f1score+f2score+f3score+f4score+f5score
@@ -469,7 +468,8 @@ autodata5_Test$Pred_train.low<- NULL
 head(autodata5_Test)
 
 
-#confusion matrix
+#----------------------------------------
+#Part 13= confusion matrix
 
 
 library(caret)
@@ -478,14 +478,10 @@ library(caret)
 confusion.matrix_TRAIN<- with(autodata4_Train,table("True"=class.true/(nrow(autodata4_Train)), "Prediction"=class.Pred_A/(nrow(autodata4_Train)))
 confusion.matrix_TRAIN 
 prop.table(confusion.matrix_TRAIN)*100
-#Confusion matrix for TRAIN Data set when A=2
-sum(confusion.matrix_TRAIN)
 
 #Confusion matrix for TEST Data set
-confusion.matrix_TEST<- with(autodata5_Test,table("True"=class.true/nrow(), "Prediction"=class.Pred_A))
+confusion.matrix_TEST<- with(autodata5_Test,table("True"=class.true/nrow(autodata5_Test), "Prediction"=class.Pred_A))
 confusion.matrix_TEST
-#Confusion matrix for TEST Data set when A=2
-sum(confusion.matrix_TEST)
 
 #-------------------------------------------------------------------------------------------------------------------------------
 
