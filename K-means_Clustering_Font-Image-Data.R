@@ -1,4 +1,4 @@
-setwd("C:\\Users\\deepp\\Google Drive\\MSDS\\MATH 6350 Data Mining\\Selected fonts")
+setwd("C:\\Users\\deepp\\Google Drive\\Selected fonts")
 getwd()
 font_style1 <- read.csv('ERAS.csv') # ERAS
 font_style2 <- read.csv('GADUGI.csv')# GADUGI
@@ -40,9 +40,6 @@ DATA_mean_std <- sapply(DATA_features,
                                                                   "Mean"= mean(DATA_features,
                                                                                na.rm=TRUE)))
 
-# DATA_features2<- DATA_features
-# library(LICORS)
-# normalize(data.matrix(DATA_features2))
 
 # Creating "SDATA" - standardized data set / Rescaled data matrix
 count = 0
@@ -77,8 +74,8 @@ head(round((W[,1:6]),3))
 #library(psych)
 #tr(CORR)     #checking sum of trace of CORR matrix
 
-write.csv(L, file="HW3_Hora_Patel_Neopaney_eigenvalues.csv")
-write.csv(W, file="HW3_Hora_Patel_Neopaney_eigenvectors.csv")
+write.csv(L, file="eigenvalues.csv")
+write.csv(W, file="eigenvectors.csv")
 
 # plot(1:400, L, type='l', main="Eigenvalues(Lr) vs. r",
 #      xlab="r", ylab="eigenvalues(L)", col="red")
@@ -92,11 +89,11 @@ head(PVE)
 ev_data$PVE<- PVE
 ev_data$r<- 1:400
 
-# plot(PVE*100, xlab="r", 
-#      ylab="PVE(%)",
-#      main="Percentage of Variance Explained vs. r",
-#      ylim=c(0,100),type='l',col='blue')
-r95 = which(ev_data$PVE >= .95)[1]   # Ken - this like directly finds r95
+plot(PVE*100, xlab="r", 
+     ylab="PVE(%)",
+     main="Percentage of Variance Explained vs. r",
+     ylim=c(0,100),type='l',col='blue')
+r95 = which(ev_data$PVE >= .95)[1]   #directly finds features with 95% variance
 r95
 
 coeff_newY<- t(W); head(coeff_newY, n=2)  #matrix of coefficients of new features
@@ -108,7 +105,7 @@ NFDATA = as.data.frame(new_features) # Ken - created dataframe version of new fe
 dim(NFDATA)
 #names(NFDATA)[1:400]<- paste("Y(", seq(1, 400), sep="",")")
 head(round((NFDATA[,1:6]),3))
-write.csv(new_features, file="HW3_new_features_Yn.csv")
+write.csv(new_features, file="new_features_Yn.csv")
 
 dim(new_features)
 
