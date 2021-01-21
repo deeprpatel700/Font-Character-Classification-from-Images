@@ -1,8 +1,8 @@
-setwd("C:\\Users\\deepp\\Google Drive\\MSDS\\MATH 6350 Data Mining\\Selected fonts")
+setwd("C:\\Users\\deepp\\Google Drive\\Selected fonts")
 getwd()
 
 
-# New standardized Dataframe post-PCA with reduced features (obtained from HW3)
+# New standardized Dataframe post-PCA with reduced features (obtained from KNN_with_PCA)
 NFDATA<- read.csv('new_features.csv')
 NFDATA$class<- as.factor(NFDATA$class)
 head(NFDATA[,1:5])
@@ -17,8 +17,7 @@ n1 = nrow(C1)
 n2 = nrow(C2)
 n3 = nrow(C3)
 
-#### HW5 Begins #####
-#### Question 1 #####
+#### Part 1 #####
 set.seed(1)
 random_sets<- function(NFDATA){
   NFDATA_CL1 <- filter(NFDATA, class == 'C1')
@@ -63,7 +62,7 @@ table(newTRAIN_TEST$y.TRAINSET)
 table(newTRAIN_TEST$y.TESTSET)
 
 
-######################### Question 3 ###################################
+######################### Part 2 ###################################
 #install.packages('randomForest')
 require(randomForest)
 set.seed(1)
@@ -197,7 +196,7 @@ plot(ntrees,conf_C3, type='b', ylim=range(c(conf_C1,conf_C2,conf_C3)),
 legend("bottomright", legend=c("C1","C2","C3"),
        col=c("blue","red","darkgreen"),lwd=1, inset=c(0.02,0.03))
 
-################### 4.1 ###################
+################### Part 3 ###################
 max(acc) # Highest accuracy.
 #bntr <- ntrees[which.max(acc)]; bntr # The best ntrees.
 bntr=300
@@ -231,7 +230,7 @@ plot(imp_eigen$L, imp_eigen$imp.MeanDecreaseAccuracy,
 # Higher the value of mean decrease accuracy or mean decrease gini score , 
 # higher the importance of the feature in the model. 
 
-###### 4.2 ###############
+###### Part 4 ###############
 set.seed(1)
 newRF<-randomForest(class~., data=newTRAIN_TEST$TRAINSET, 
                     ntree=bntr, mtry=sqrt(r95), importance=TRUE)
@@ -243,6 +242,8 @@ accuracy(bestRF.test_conf)
 accuracy(newRF.test_conf)
 bestRF_conf
 newRF_conf
+
+#---------Part 5 -----------#
 # Confidence Intervals
 #90% Confidence interval of each diagonal term individually- bestRF
 cv= 1.6  #change cv to 1.96 for 95%CI
@@ -303,7 +304,7 @@ upper_test.CL3_new<- ptest.CL3_new + (cv*sigma_test.CL3_new); upper_test.CL3_new
 # Overlap among both CI and sharing same range indicates no significant variation 
 # between bestRF and newRF. The model split is stable.
 #--------------------------------------------------------------------------------
-#### 5.1 ####
+#### Part 6 ####
 NFDATA2_TRAIN = TRAIN_TEST$TRAINSET
 NFDATA2_TEST = TRAIN_TEST$TESTSET
 
@@ -411,7 +412,7 @@ M1
 M2
 M3
 
-################ 5.2  ###########################
+################ Part 7  ###########################
 NFDATA3_TRAIN= TRAIN_TEST$TRAINSET
 NFDATA3_TEST= TRAIN_TEST$TESTSET
 NFDATA3_TEST$Vn= bestRF.test
@@ -471,7 +472,6 @@ B3<- accuracy(C3_vs_C12); B3
 BM1
 BM2
 BM3
-
 # Accuracy improved for each C1, C2, C3 and decreased for C12,C23,C13
 
 
